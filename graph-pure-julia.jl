@@ -8,7 +8,7 @@ model_pkgs = ["ADNLPModels", "AmplNLReader", "BundleAdjustmentModels", "CUTEst",
 solver_pkgs = ["BenchmarkProfiles", "CaNNOLeS", "DCISolver", "JSOSolvers", "NLPModelsIpopt", "NLPModelsKnitro", "Percival", "RipQP", "SolverCore", "SolverTest", "SolverTools", "SolverBenchmark"]
 la_pkgs = ["AMD", "BasicLU", "HSL", "Krylov", "LDLFactorizations", "LimitedLDLFactorizations", "LinearOperators", "PROPACK", "MUMPS", "QRMumps", "SparseMatricesCOO", "SuiteSparseMatrixCollection"]
 
-colors = ["red", "darkgreen", "purple", "black"]
+colors = ["darkred", "darkgreen", "darkorchid4", "black"]
 class_of = pkg -> if pkg in model_pkgs
         1
     elseif pkg in solver_pkgs
