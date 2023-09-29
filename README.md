@@ -21,4 +21,4 @@ The Logo is a trademark of JuliaSmoothOptimizers and its creators.
 
 Current ecosystem (see commit date). Generated with [graph-pure-julia.jl](graph-pure-julia.jl).
 
-<img src="graph.png">
+<img src="ecosystem.png">
