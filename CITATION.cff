@@ -1,0 +1,45 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+authors:
+  - given-names: Tangi
+    family-names: Migot
+    email: tangi.migot@gmail.com
+    orcid: 'https://orcid.org/0000-0001-7729-2513'
+    affiliation: >-
+      GERAD and Department of Mathematics and
+      Industrial Engineering, Polytechnique Montréal,
+      QC, Canada.
+  - given-names: Dominique
+    family-names: Orban
+    email: dominique.orban@gerad.ca
+    orcid: 'https://orcid.org/0000-0002-8017-7687'
+    affiliation: >-
+      GERAD and Department of Mathematics and
+      Industrial Engineering, Polytechnique Montréal,
+      QC, Canada
+  - given-names: Abel
+    family-names: Soares Siqueira
+    email: abel.s.siqueira@gmail.com
+    orcid: 'https://orcid.org/0000-0003-4451-281X'
+    affiliation: 'Netherlands eScience Center, Amsterdam, NL'
+  - family-names: contributors
+cff-version: 1.2.0
+identifiers:
+  - description: Zenodo archive
+    type: doi
+    value: 10.5281/zenodo.2655081
+keywords:
+  - Nonlinear Optimization
+  - Julia
+  - Nonlinear Programming
+license: MPL-2.0
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+repository-code: >-
+  https://jso.dev
+title: >-
+  The JuliaSmoothOptimizers Ecosystem for Numerical Linear Algebra and Optimization in Julia
+type: software
+date-released: '2024-02-16'
