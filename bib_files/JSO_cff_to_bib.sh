@@ -15,12 +15,15 @@ while IFS= read -r line; do
   cff_url="https://raw.githubusercontent.com/JuliaSmoothOptimizers/${line}.jl/main/CITATION.cff"
   bib_url="https://raw.githubusercontent.com/JuliaSmoothOptimizers/${line}.jl/main/CITATION.bib"
 
-  # Download the CITATION.cff file using curl
-  curl -o "${line}_CITATION.cff" "$cff_url"
+  # Check if CITATION.cff file exists
+  http_status=$(curl -o /dev/null -s -w "%{http_code}\n" "$cff_url")
 
   # Check if the download was successful
-  if [ $? -eq 0 ]; then
-    echo "CITATION.cff file downloaded for ${line}."
+  if [ "$http_status" -eq 200 ]; then
+    echo "CITATION.cff file found for ${line}."
+
+    # Download the CITATION.cff file
+    curl -o "${line}_CITATION.cff" "$cff_url"
 
     # Convert the CFF file to BibTeX and append the result to jso.bib
     cffconvert -f bibtex -i "${line}_CITATION.cff" >> "$output_file"
@@ -29,11 +32,16 @@ while IFS= read -r line; do
     # Remove the downloaded CITATION.cff file
     rm "${line}_CITATION.cff"
   else
-    # If CITATION.cff doesn't exist, try to download CITATION.bib directly
-    curl -o "${line}_CITATION.bib" -s --fail "$bib_url"
-    
-    if [ $? -eq 0 ]; then
-      echo "CITATION.bib file downloaded for ${line}."
+    echo "CITATION.cff file not found for ${line}. Checking for CITATION.bib."
+
+    # Check if CITATION.bib file exists
+    http_status=$(curl -o /dev/null -s -w "%{http_code}\n" "$bib_url")
+
+    if [ "$http_status" -eq 200 ]; then
+      echo "CITATION.bib file found for ${line}."
+
+      # Download the CITATION.bib file
+      curl -o "${line}_CITATION.bib" "$bib_url"
 
       # Append the CITATION.bib file directly to jso.bib
       cat "${line}_CITATION.bib" >> "$output_file"
@@ -49,7 +57,8 @@ while IFS= read -r line; do
   
   # Apply post-treatment to update BibTeX entries
   # Replace @misc{YourReferenceHere, with @misc{${line}.jl,
-  sed -i "s/@misc{[^,]*,@misc{${line}.jl,/g" "$output_file"
+  sed -i "s|@misc{[^,]*|@software{${line}_jl|g" "$output_file"
+  sed -i "s|@Misc{[^,]*|@software{${line}_jl|g" "$output_file"
 done < "$file"
 
 echo "All citations have been concatenated into $output_file."
