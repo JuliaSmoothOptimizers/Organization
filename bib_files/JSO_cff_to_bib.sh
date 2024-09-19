@@ -57,7 +57,6 @@ while IFS= read -r line; do
   
   # Apply post-treatment to update BibTeX entries
   # Replace @misc{YourReferenceHere, with @misc{${line}.jl,
-  # sed -i "s/@misc{[^,]*,@software{${line}_jl,/g" "$output_file"
   sed -i "s|@misc{[^,]*|@software{${line}_jl|g" "$output_file"
   sed -i "s|@Misc{[^,]*|@software{${line}_jl|g" "$output_file"
 done < "$file"
