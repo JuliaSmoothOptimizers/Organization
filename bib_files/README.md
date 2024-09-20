@@ -9,6 +9,8 @@ The list of JSO packages checked is [../pkgs_data/list_jso_packages.dat](https:/
 The validation and conversion relies on [cffconvert](https://github.com/citation-file-format/cffconvert).
 Note that a CFF file that doesn't pass the validation is not converted in BIB format.
 
+The new verion use [ruby-cff](https://github.com/citation-file-format/ruby-cff) as it support the preferred-citation feature.
+
 ## Formatting of jso.bib
 
 The reference of each bib entry is `NameOfThePackage_jl`.
@@ -21,3 +23,4 @@ The reference of each bib entry is `NameOfThePackage_jl`.
 - [ ] Check if url mentioned in the BIB exist
 - [ ] Check if DOI exist
 - [ ] Check if first-names are initials (should be literal)
+- [ ] This doesn't support preferred-citation
