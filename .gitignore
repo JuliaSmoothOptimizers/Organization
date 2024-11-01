@@ -1,3 +1,6 @@
+# Repo specific
+JSOBestie/.CondaPkg
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
