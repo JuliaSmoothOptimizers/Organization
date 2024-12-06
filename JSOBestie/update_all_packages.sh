@@ -15,7 +15,7 @@ fi
 
 DEV_PATH="$HOME/.julia/dev"
 SETUP_PATH="$DEV_PATH/Organization/JSOBestie"
-BRANCH_NAME="update-jso-bestietemplate"
+BRANCH_NAME="update-jso-bestietemplate-2024-12-06"
 
 # Read each package name from the file and process it
 while IFS= read -r PACKAGE_NAME; do
@@ -36,6 +36,12 @@ while IFS= read -r PACKAGE_NAME; do
     # Navigate to the package directory
     cd "$PACKAGE_PATH" || { echo "Failed to enter $PACKAGE_PATH"; continue; }
 
+    # Replace copier-answers.jso.yml with .copier-answers.jso.yml if it exists
+    if [ -f "copier-answers.jso.yml" ]; then
+        mv "copier-answers.jso.yml" ".copier-answers.jso.yml"
+        echo "Renamed copier-answers.jso.yml to .copier-answers.jso.yml"
+    fi
+
     # Create and checkout a new branch
     # Check if the branch already exists
     if git rev-parse --verify "$BRANCH_NAME" >/dev/null 2>&1; then
@@ -47,7 +53,7 @@ while IFS= read -r PACKAGE_NAME; do
     fi
 
     # Apply the setup_package.sh script with an absolute path
-    "$SETUP_PATH/apply_jsobestietemplate.sh" "$PACKAGE_NAME"
+    "$SETUP_PATH/apply_jsobestietemplate.sh" "$PACKAGE_NAME" "$SETUP_PATH"
 
     # Commit changes
     git add .

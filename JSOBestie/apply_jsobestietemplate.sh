@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# Check if an argument is provided
-if [ -z "$1" ]; then
-    echo "Please provide the package name as an argument."
+# Check if sufficient arguments are provided
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <package_name> <base_path>"
+    echo "Example: $0 MyPackage C:\\Users\\username\\"
     exit 1
 fi
 
 # Set variables for paths and values
 PACKAGE_NAME=$1
+BASE_PATH=$2
 PACKAGE_OWNER="JuliaSmoothOptimizers"
 SRC_PATH="https://github.com/JuliaSmoothOptimizers/JSOBestieTemplate.jl"
 COMMIT="v0.13.0"
@@ -18,15 +20,15 @@ ADD_BENCHMARK_CI=true
 # Detect the OS and set paths accordingly
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
     # Windows path setup
-    ENV_PATH="C:\\Users\\tangi\\.julia\\dev\\Organization\\JSOBestie\\."
-    PACKAGE_PATH="C:\\Users\\tangi\\.julia\\dev\\${PACKAGE_NAME}.jl\\Project.toml"
-    OUTPUT_FILE="C:\\Users\\tangi\\.julia\\dev\\${PACKAGE_NAME}.jl\\copier-answers.jso.yml"
+    ENV_PATH="${BASE_PATH}.julia\\dev\\Organization\\JSOBestie\\."
+    PACKAGE_PATH="${BASE_PATH}.julia\\dev\\${PACKAGE_NAME}.jl\\Project.toml"
+    OUTPUT_FILE="${BASE_PATH}.julia\\dev\\${PACKAGE_NAME}.jl\\.copier-answers.jso.yml"
     JULIA_CMD="julia"
 elif [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
     # Linux or macOS path setup
     ENV_PATH="$HOME/.julia/dev/Organization/JSOBestie/."
     PACKAGE_PATH="$HOME/.julia/dev/${PACKAGE_NAME}.jl/Project.toml"
-    OUTPUT_FILE="$HOME/.julia/dev/${PACKAGE_NAME}.jl/copier-answers.jso.yml"
+    OUTPUT_FILE="$HOME/.julia/dev/${PACKAGE_NAME}.jl/.copier-answers.jso.yml"
     JULIA_CMD="julia"
 else
     echo "Unsupported OS: $OSTYPE"
@@ -62,4 +64,4 @@ echo "Created file $OUTPUT_FILE with the specified content."
 
 # Execute the Julia commands
 $JULIA_CMD --project=$ENV_PATH -e 'using Pkg; Pkg.update(); Pkg.instantiate()'
-yes | $JULIA_CMD --project=$ENV_PATH -e "using BestieTemplate; BestieTemplate.Copier.copy(\"$SRC_PATH\", raw\"C:\Users\tangi\.julia\dev\\${PACKAGE_NAME}.jl\", answers_file = \".copier-answers.jso.yml\")"
+yes | $JULIA_CMD --project=$ENV_PATH -e "using BestieTemplate; BestieTemplate.Copier.copy(\"$SRC_PATH\", raw\"${BASE_PATH}.julia\\dev\\${PACKAGE_NAME}.jl\", answers_file = \".copier-answers.jso.yml\")"
