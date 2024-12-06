@@ -1,5 +1,6 @@
 # Repo specific
-JSOBestie/.CondaPkg
+JSOBestie/.CondaPkg/
+*.pl
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
