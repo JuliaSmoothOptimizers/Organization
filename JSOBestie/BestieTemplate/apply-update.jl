@@ -15,7 +15,7 @@ data = Dict(
     "CheckExplicitImports" => "Y",
     "AddPrecommit" => "Y",
     "AutoIncludeTests" => "Y",
-    "ExplicitImportsChecklist" => "exclude_all_qualified_access_are_public",
+    "ExplicitImportsChecklist" => "exclude_all_qualified_accesses_are_public",
     # "UseCirrusCI" => "Y", # if Cirrus is already in the package.
     "AddMacToCI" => "Y",
     "AddWinToCI" => "Y",
@@ -29,3 +29,4 @@ data = Dict(
 BestieTemplate.apply(".", data, overwrite = true)
 # If BestieTemplate needs to be udpated use:
 # BestieTemplate.update(data, overwrite = true)
+
