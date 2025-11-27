@@ -6,21 +6,24 @@ using JSON
 
 function write_report(
     organization_name::String = "JuliaSmoothOptimizers";
-    filepath::String = "pkgs_data/list_jso_packages.dat",
+    filepath::String = joinpath(dirname(@__DIR__), "pkgs_data", "list_jso_packages.dat"),
 )
     # --- 1) Get current packages from GitHub ---
     current_pkgs = Set(organization_pkgs(organization_name))
+    if isempty(current_pkgs)
+        @warn "No packages found - this might indicate an API error"
+    end
 
     # --- 2) Read existing file if present ---
     existing_pkgs = if isfile(filepath)
-        Set(readlines(filepath))
+        Set(filter(!isempty, readlines(filepath)))
     else
         Set{String}()  # empty set
     end
 
     # --- 3) Compute differences ---
-    added   = current_pkgs  .- existing_pkgs
-    removed = existing_pkgs .- current_pkgs
+    added   = setdiff(current_pkgs,  existing_pkgs)
+    removed = setdiff(existing_pkgs, current_pkgs)
 
     # --- 4) Report differences ---
     for pkg in added

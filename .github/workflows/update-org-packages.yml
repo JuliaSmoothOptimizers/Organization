@@ -25,7 +25,7 @@ jobs:
           version: '1'   # or a specific version, e.g. '1.11'
 
       - name: Instantiate project (if needed)
-        run: julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate()'
+        run: julia -e 'using Pkg; Pkg.activate(""pkgs_data""); Pkg.instantiate()'
 
       - name: Run update_org_packages script
         run: julia pkgs_data/get_jso_packages.jl
