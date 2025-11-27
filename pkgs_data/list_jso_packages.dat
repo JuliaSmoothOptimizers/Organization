@@ -15,12 +15,12 @@ FletcherPenaltySolver
 FluxNLPModels
 HSL
 JSOBenchmarks
+JSOBestieTemplate
 JSOSolverSkeleton
 JSOSolvers
 JSOSuite
 JSOTemplate
 JSOTutorials
-KnetNLPModels
 Krylov
 KrylovPreconditioners
 LDLFactorizations
@@ -43,10 +43,10 @@ PDENLPModels
 PROPACK
 PartiallySeparableNLPModels
 PartiallySeparableSolvers
-PartitionedKnetNLPModels
 PartitionedStructures
 PartitionedVectors
 Percival
+ProxTV
 QPSReader
 QRMumps
 QuadraticModels
@@ -64,3 +64,4 @@ SolverTest
 SolverTools
 SparseMatricesCOO
 SuiteSparseMatrixCollection
+TimerNLPModels
