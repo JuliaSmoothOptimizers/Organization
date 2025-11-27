@@ -29,7 +29,7 @@ jobs:
         run: julia -e 'using Pkg; Pkg.activate("pkgs_data"); Pkg.instantiate()'
 
       - name: Run update_org_packages script
-        run: julia scripts/update_org_packages.jl
+        run: julia pkgs_data/get_jso_packages.jl
 
       - name: Check for changes
         id: git_diff
