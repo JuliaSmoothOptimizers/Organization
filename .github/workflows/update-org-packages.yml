@@ -1,0 +1,46 @@
+name: Update organization packages list
+
+on:
+  schedule:
+    # Every Monday at 03:00 UTC (adjust as you like)
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-list:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'   # or a specific version, e.g. '1.11'
+
+      - name: Instantiate project (if needed)
+        run: julia -e 'using Pkg; Pkg.activate(""pkgs_data""); Pkg.instantiate()'
+
+      - name: Run update_org_packages script
+        run: julia pkgs_data/get_jso_packages.jl
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit changes if any
+        run: |
+          if ! git diff --quiet; then
+            git add pkgs_data/list_jso_packages.dat
+            git commit -m "chore: update organization packages list"
+            git push
+          else
+            echo "No changes to commit."
+          fi
