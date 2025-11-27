@@ -2,12 +2,13 @@ name: Update organization packages list
 
 on:
   schedule:
-    # Every Monday at 03:00 UTC (adjust as you like)
+    # Every Monday at 03:00 UTC
     - cron: "0 3 * * 1"
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-list:
@@ -22,25 +23,33 @@ jobs:
       - name: Set up Julia
         uses: julia-actions/setup-julia@v2
         with:
-          version: '1'   # or a specific version, e.g. '1.11'
+          version: '1'
 
-      - name: Instantiate project (if needed)
+      - name: Instantiate project
         run: julia -e 'using Pkg; Pkg.activate("pkgs_data"); Pkg.instantiate()'
 
       - name: Run update_org_packages script
         run: julia pkgs_data/get_jso_packages.jl
 
-      - name: Configure git
+      - name: Check for changes
+        id: git_diff
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Commit changes if any
-        run: |
-          if ! git diff --quiet; then
-            git add pkgs_data/list_jso_packages.dat
-            git commit -m "chore: update organization packages list"
-            git push
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            echo "No changes to commit."
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Create Pull Request
+        if: steps.git_diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: update organization packages list"
+          title: "chore: update organization packages list"
+          body: |
+            This PR updates `pkgs_data/list_jso_packages.dat` with the latest organization packages.
+            Created automatically by GitHub Actions.
+          branch: bot/update-org-packages-list
+          base: main
+          add-paths: |
+            pkgs_data/list_jso_packages.dat
