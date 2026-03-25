@@ -48,7 +48,7 @@ function organization_pkgs(organization_name::String = "JuliaSmoothOptimizers")
   json = JSON.parse(
     read(`curl https://api.github.com/orgs/$(organization_name)/repos\?per_page=100`, String),
   )
-  pkgs = map(x -> x["name"], json)
+  pkgs = [x["name"] for x in values(json)]
   pkgs = filter(x -> x[(end - 1):end] == "jl", pkgs)
   pkgs = map(x -> x[1:(end - 3)], pkgs)
   return sort(pkgs)
